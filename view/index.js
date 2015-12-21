@@ -19,6 +19,13 @@ var Generator = module.exports = function Generator() {
     this.env.options.appPath = this.env.options.appPath || 'app';
     this.options.appPath = this.env.options.appPath;
   }
+
+  // modulePath e.g. components/directives/first-time-experience
+  this.modulePath = path.normalize(this.name.toLowerCase().split('.').join('/')); // replace all dots with forward slashes
+  // moduleName e.g. first-time-experience
+  this.moduleName = path.basename(this.modulePath);
+  // moduleFullName e.g. ultra.components.directives.firstTimeExperience
+  this.moduleFullName = this._.camelize((this.appname + '.' + this.name).split('-').join(' '));
 };
 
 util.inherits(Generator, yeoman.generators.NamedBase);
@@ -28,8 +35,9 @@ Generator.prototype.createViewFiles = function createViewFiles() {
     'app/views/view.html',
     path.join(
       this.env.options.appPath,
-      'views',
-      this.name.toLowerCase() + '.html'
+      this.modulePath,
+      this.moduleName + '.html'
     )
   );
+
 };

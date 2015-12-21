@@ -1,6 +1,7 @@
 'use strict';
 var util = require('util');
 var path = require('path');
+var fs = require('fs');
 var yeoman = require('yeoman-generator');
 var angularUtils = require('./util.js');
 var chalk = require('chalk');
@@ -10,17 +11,42 @@ var Generator = module.exports = function Generator() {
 
   var bowerJson = {};
 
+  
   try {
-    bowerJson = require(path.join(process.cwd(), 'bower.json'));
-  } catch (e) {}
-
-  if (bowerJson.name) {
-    this.appname = bowerJson.name;
-  } else {
+    this.appname = require(path.join(process.cwd(), 'bower.json')).name;
+  } catch (e) {
     this.appname = path.basename(process.cwd());
   }
-
   this.appname = this._.slugify(this._.humanize(this.appname));
+
+
+
+// Custom properties 
+
+  //var folders = this.name.toLowerCase().split('.');
+  //this.modulePath = folders.slice(0, folders.length - 1).join('/');
+
+// modulePath e.g. components/directives/first-time-experience
+  this.modulePath = path.normalize(this.name.toLowerCase().split('.').join('/')); // replace all dots with forward slashes
+  // moduleName e.g. first-time-experience
+  this.moduleName = path.basename(this.modulePath);
+  // moduleFullName e.g. ultra.components.directives.firstTimeExperience
+  this.moduleFullName = this._.camelize((this.appname + '.' + this.name).split('-').join(' '));
+  // className e.g. FirstTimeExperience
+  this.className = this._.classify(this.moduleName.split('-').join(' '));
+  // class name as a constant FIRST_TIME_EXPERIENCE
+  this.classNameConstant = this._.underscored(this.moduleName.split('-').join(' ')).toUpperCase();
+  // camelName e.g. firstTimeExperience
+  this.camelName = this._.camelize(this.moduleName.split('-').join(' '));
+
+
+  // pathToApp e.g. ../../..
+  // how to reach the app.ts or unit_test.d.ts files at the app root from a generated file
+  //this.pathToApp = path.relative(
+  //  path.join(this.destinationRoot(), this.env.options.appPath, this.modulePath), // from (where the generated file will be located)
+  //  path.join(this.destinationRoot(), this.env.options.appPath) // to (where the app root is)
+  //);
+
 
   this.scriptAppName = bowerJson.moduleName || this._.camelize(this.appname) + angularUtils.appName(this);
 
@@ -81,31 +107,6 @@ var Generator = module.exports = function Generator() {
 util.inherits(Generator, yeoman.generators.NamedBase);
 
 
-// Custom properties 
-
-// modulePath e.g. components/directives/first-time-experience
-  this.modulePath = path.normalize(this.name.toLowerCase().split('.').join('/')); // replace all dots with forward slashes
-  // moduleName e.g. first-time-experience
-  this.moduleName = path.basename(this.modulePath);
-  // moduleFullName e.g. ultra.components.directives.firstTimeExperience
-  this.moduleFullName = this._.camelize((this.appname + '.' + this.name).split('-').join(' '));
-  // className e.g. FirstTimeExperience
-  this.className = this._.classify(this.moduleName.split('-').join(' '));
-  // class name as a constant FIRST_TIME_EXPERIENCE
-  this.classNameConstant = this._.underscored(this.moduleName.split('-').join(' ')).toUpperCase();
-  // camelName e.g. firstTimeExperience
-  this.camelName = this._.camelize(this.moduleName.split('-').join(' '));
-  // pathToApp e.g. ../../..
-  // how to reach the app.ts or unit_test.d.ts files at the app root from a generated file
-  this.pathToApp = path.relative(
-    path.join(this.destinationRoot(), this.env.options.appPath, this.modulePath), // from (where the generated file will be located)
-    path.join(this.destinationRoot(), this.env.options.appPath) // to (where the app root is)
-  );
-
-
-
-
-
 Generator.prototype.appTemplate = function (src, dest) {
   yeoman.generators.Base.prototype.template.apply(this, [
     src + this.scriptSuffix,
@@ -146,7 +147,6 @@ Generator.prototype.addScriptToIndex = function (script) {
 };
 
 Generator.prototype.generateSourceAndTest = function (appTemplate, testTemplate, componentType) {
-}
   // componentType e.g. controller
   this.componentType = componentType.toLowerCase();
 
@@ -155,5 +155,5 @@ Generator.prototype.generateSourceAndTest = function (appTemplate, testTemplate,
 
 
   this.appTemplate(appTemplate, componentPath);
-  this.testTemplate(testTemplate, componentPath);
-};
+
+}
