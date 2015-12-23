@@ -54,14 +54,14 @@ module.exports = function (grunt) {
         tasks: ['typescript:test', 'karma']
       },<% } else { %>
       js: {
-        files: ['<%%= yeoman.app %>/scripts/{,*/}*.js'],
+        files: ['<%%= yeoman.app %>/app/**/{,*/}*.js'],
         tasks: ['newer:jshint:all', 'newer:jscs:all'],
         options: {
           livereload: '<%%= connect.options.livereload %>'
         }
       },
       jsTest: {
-        files: ['test/spec/{,*/}*.js'],
+        files: ['app/**/{,*/}*.js'],
         tasks: ['newer:jshint:test', 'newer:jscs:test', 'karma']
       },<% } %><% if (compass) { %>
       compass: {
@@ -155,7 +155,7 @@ module.exports = function (grunt) {
         options: {
           jshintrc: 'test/.jshintrc'
         },
-        src: ['test/spec/{,*/}*.js']
+        src: ['app/**/{,*/}*.js']
       }<% } %>
     },
 
@@ -172,7 +172,7 @@ module.exports = function (grunt) {
         ]
       },
       test: {
-        src: ['test/spec/{,*/}*.js']
+        src: ['app/**/{,*/}*.js']
       }
     },
 
@@ -271,7 +271,7 @@ module.exports = function (grunt) {
         }
       },
       test: {
-        src: ['test/spec/{,*/}*.ts', 'test/e2e/{,*/}*.ts'],
+        src: ['app/**/{,*/}*.ts', 'test/e2e/{,*/}*.ts'],
           dest: '.tmp/spec',
           options: {
           module: 'amd', //or commonjs
@@ -310,7 +310,7 @@ module.exports = function (grunt) {
       test: {
         files: [{
           expand: true,
-          cwd: 'test/spec',
+          cwd: 'app/**',
           src: '{,*/}*.coffee',
           dest: '.tmp/spec',
           ext: '.js'
@@ -351,7 +351,7 @@ module.exports = function (grunt) {
     filerev: {
       dist: {
         src: [
-          '<%%= yeoman.dist %>/scripts/{,*/}*.js',
+          '<%%= yeoman.dist %>/**/{,*/}*.js',
           '<%%= yeoman.dist %>/styles/{,*/}*.css',
           '<%%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
           '<%%= yeoman.dist %>/styles/fonts/*'

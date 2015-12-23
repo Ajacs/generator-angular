@@ -1,23 +1,23 @@
 'use strict';
 
-describe('Controller: <%= classedName %>Ctrl', function () {
+describe('Controller: <%= classedName %>Controller', function () {
 
   // load the controller's module
   beforeEach(module('<%= scriptAppName %>'));
 
-  var <%= classedName %>Ctrl,
+  var <%= classedName %>Controller,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    <%= classedName %>Ctrl = $controller('<%= classedName %>Ctrl', {
+    <%= classedName %>Controller = $controller('<%= classedName %>Controller', {
       $scope: scope
       // place here mocked dependencies
     });
   }));
 
   it('should attach a list of awesomeThings to the scope', function () {
-    expect(<%= classedName %>Ctrl.awesomeThings.length).toBe(3);
+    expect(<%= classedName %>Controller.awesomeThings.length).toBe(3);
   });
 });

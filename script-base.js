@@ -34,7 +34,7 @@ var Generator = module.exports = function Generator() {
   this.scriptAppName = bowerJson.moduleName || this._.camelize(this.appname) + angularUtils.appName(this);
 
   this.cameledName = this._.camelize(this.name);
-  this.classedName = this._.classify(this.name);
+  this.classedName = this._.classify(this.moduleName);
 
   if (typeof this.env.options.appPath === 'undefined') {
     this.env.options.appPath = this.options.appPath;
@@ -131,11 +131,13 @@ Generator.prototype.addScriptToIndex = function (script) {
   try {
     var appPath = this.env.options.appPath;
     var fullPath = path.join(appPath, 'index.html');
+    console.log('appPath: ' + appPath);
+    console.log('fullPath: ' + fullPath);
     angularUtils.rewriteFile({
       file: fullPath,
       needle: '<!-- endbuild -->',
       splicable: [
-        '<script src="scripts/' + script.toLowerCase().replace(/\\/g, '/') + '.js"></script>'
+        '<script src="' + script.toLowerCase().replace(/\\/g, '/') + '.js"></script>'
       ]
     });
   } catch (e) {
@@ -149,7 +151,11 @@ Generator.prototype.generateSourceAndTest = function (appTemplate, testTemplate,
   // componentType e.g. controller
   this.componentType = componentType.toLowerCase();
 
+
+
   var componentPath = path.join(this.modulePath, this.moduleName + (this.componentType ? '-' + this.componentType : ''));
+console.log(componentPath);
+  this.cameledName = this._.camelize(this.className + this._.classify(this.componentType) );
 
 
   this.appTemplate(appTemplate, componentPath);
