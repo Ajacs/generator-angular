@@ -71,15 +71,15 @@ var Generator = module.exports = function Generator(args, options) {
     this.env.options.typescript = this.options.typescript;
   }
 
-  this.hookFor('angular:common', {
+  this.hookFor('angular-pr:common', {
     args: args
   });
 
-  this.hookFor('angular:main', {
+  this.hookFor('angular-pr:main', {
     args: args
   });
 
-  this.hookFor('angular:controller', {
+  this.hookFor('angular-pr:controller', {
     args: args
   });
 
@@ -118,7 +118,7 @@ var Generator = module.exports = function Generator(args, options) {
     });
 
     if (this.env.options.ngRoute) {
-      this.invoke('angular:route', {
+      this.invoke('angular-pr:route', {
         args: ['about']
       });
     }

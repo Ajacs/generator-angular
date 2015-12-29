@@ -1,5 +1,6 @@
 'use strict';
 var util = require('util');
+var path = require('path');
 var ScriptBase = require('../script-base.js');
 
 
@@ -16,10 +17,11 @@ var Generator = module.exports = function Generator() {
 util.inherits(Generator, ScriptBase);
 
 Generator.prototype.createControllerFiles = function createControllerFiles() {
-  this.generateSourceAndTest(
+
+ this.generateSourceAndTest(
     'controller',
     'spec/controller',
-    'controllers',
+    'controller',
     this.options['skip-add'] || false
   );
 };
