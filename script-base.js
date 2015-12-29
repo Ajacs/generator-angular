@@ -23,13 +23,9 @@ var Generator = module.exports = function Generator() {
 
 // Custom properties 
 
-  //var folders = this.name.toLowerCase().split('.');
-  //this.modulePath = folders.slice(0, folders.length - 1).join('/');
-
-// modulePath e.g. components/directives/first-time-experience
-  this.modulePath = path.normalize(this.name.toLowerCase().split('.').join('/')); // replace all dots with forward slashes
-  // moduleName e.g. first-time-experience
-  this.moduleName = path.basename(this.modulePath);
+  var name = this.name.toLowerCase().split('.');
+  this.modulePath= name.slice(0, name.length - 1).join('/');
+  this.moduleName = path.basename(name[name.length-1]);
   // moduleFullName e.g. ultra.components.directives.firstTimeExperience
   this.moduleFullName = this._.camelize((this.appname + '.' + this.name).split('-').join(' '));
   // className e.g. FirstTimeExperience
