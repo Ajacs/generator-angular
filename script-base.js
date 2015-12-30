@@ -47,14 +47,19 @@ var Generator = module.exports = function Generator() {
   this.scriptAppName = bowerJson.moduleName || this._.camelize(this.appname) + angularUtils.appName(this);
 
   this.cameledName = this._.camelize(this.name);
-  this.classedName = this._.classify(this.name);
+  this.classedName = this._.classify(this.moduleName);
 
   if (typeof this.env.options.appPath === 'undefined') {
     this.env.options.appPath = this.options.appPath || bowerJson.appPath || 'app';
     this.options.appPath = this.env.options.appPath;
   }
 
-  this.env.options.testPath = this.env.options.testPath || bowerJson.testPath || 'test/spec';
+    if (typeof this.env.options.testPath === 'undefined') {
+    try {
+      this.env.options.testPath = require(path.join(process.cwd(), 'bower.json')).testPath;
+    } catch (e) {}
+    this.env.options.testPath = this.env.options.testPath || this.options.appPath;
+  }
 
   this.env.options.typescript = this.options.typescript;
   if (typeof this.env.options.typescript === 'undefined') {
@@ -124,7 +129,7 @@ Generator.prototype.htmlTemplate = function (src, dest) {
   ]);
 };
 
-Generator.prototype.addScriptToIndex = function (script) {
+Generator.prototype.addScriptToIndex = function (componentPath) {
   try {
     var appPath = this.env.options.appPath;
     var fullPath = path.join(appPath, 'index.html');
@@ -132,7 +137,7 @@ Generator.prototype.addScriptToIndex = function (script) {
       file: fullPath,
       needle: '<!-- endbuild -->',
       splicable: [
-        '<script src="scripts/' + script.toLowerCase().replace(/\\/g, '/') + '.js"></script>'
+        '<script src="' + componentPath + '.js"></script>'
       ]
     });
   } catch (e) {
@@ -151,5 +156,7 @@ Generator.prototype.generateSourceAndTest = function (appTemplate, testTemplate,
 
 
   this.appTemplate(appTemplate, componentPath);
+  this.testTemplate(testTemplate, componentPath);
+  this.addScriptToIndex(componentPath);
 
 }

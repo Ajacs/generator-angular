@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name <%= scriptAppName %>.controller:<%= classedName %>Ctrl
+ * @name <%= scriptAppName %>.controller:<%= classedName %>Controller
  * @description
- * # <%= classedName %>Ctrl
+ * # <%= classedName %>Controller
  * Controller of the <%= scriptAppName %>
  */
 angular.module('<%= scriptAppName %>')
-  .controller('<%= classedName %>Ctrl', function () {
+  .controller('<%= classedName %>Controller', function () {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
