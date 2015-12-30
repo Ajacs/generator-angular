@@ -26,23 +26,10 @@ var Generator = module.exports = function Generator() {
   var name = this.name.toLowerCase().split('.');
   this.modulePath= name.slice(0, name.length - 1).join('/');
   this.moduleName = path.basename(name[name.length-1]);
-  // moduleFullName e.g. ultra.components.directives.firstTimeExperience
   this.moduleFullName = this._.camelize((this.appname + '.' + this.name).split('-').join(' '));
-  // className e.g. FirstTimeExperience
   this.className = this._.classify(this.moduleName.split('-').join(' '));
-  // class name as a constant FIRST_TIME_EXPERIENCE
   this.classNameConstant = this._.underscored(this.moduleName.split('-').join(' ')).toUpperCase();
-  // camelName e.g. firstTimeExperience
   this.camelName = this._.camelize(this.moduleName.split('-').join(' '));
-
-
-  // pathToApp e.g. ../../..
-  // how to reach the app.ts or unit_test.d.ts files at the app root from a generated file
-  //this.pathToApp = path.relative(
-  //  path.join(this.destinationRoot(), this.env.options.appPath, this.modulePath), // from (where the generated file will be located)
-  //  path.join(this.destinationRoot(), this.env.options.appPath) // to (where the app root is)
-  //);
-
 
   this.scriptAppName = bowerJson.moduleName || this._.camelize(this.appname) + angularUtils.appName(this);
 
