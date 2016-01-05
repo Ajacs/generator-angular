@@ -56,7 +56,7 @@ yo angular
 ```
 
 ### Route
-Generates a controller and view, and configures a route in `app/scripts/app.js` connecting them.
+Generates a controller and view, and configures a route in `app/app.js` connecting them.
 
 Example:
 ```bash
@@ -82,7 +82,7 @@ Example:
 yo angular:route myRoute --uri=my/route
 ```
 
-Produces controller and view as above and adds a route to `app/scripts/app.js`
+Produces controller and view as above and adds a route to `app/app.js`
 with URI `my/route`
 
 ### Controller

@@ -71,7 +71,7 @@ describe('Angular generator appPath option', function () {
       angular.run({}, function() {
         helpers.assertFile([].concat(expected, [
           '.jscsrc',
-          appPath + '/scripts/app.js',
+          appPath + 'app.js',
           appPath + '/scripts/controllers/main.js',
           'test/spec/controllers/main.js'
         ]));

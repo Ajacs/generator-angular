@@ -34,7 +34,7 @@ var Generator = module.exports = function Generator() {
 
   this.scriptAppName = bowerJson.moduleName || this._.camelize(this.appname) + angularUtils.appName(this);
 
-  this.cameledName = this._.camelize(this.name);
+  this.cameledName = this._.camelize(this.moduleName);
   this.classedName = this._.classify(this.moduleName);
 
   if (typeof this.env.options.appPath === 'undefined') {

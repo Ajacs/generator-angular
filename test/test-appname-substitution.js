@@ -41,14 +41,14 @@ describe('Angular generator template', function () {
   it('should generate the same appName in every file', function (done) {
     angular.run({}, function () {
       helpers.assertFile([
-        'app/scripts/app.js',
+        'app/app.js',
         'app/scripts/controllers/main.js',
         'app/index.html',
         'test/spec/controllers/main.js'
       ]);
 
       helpers.assertFileContent(
-        'app/scripts/app.js',
+        'app/app.js',
         new RegExp('module\\(\'' + appName + 'App\'')
       );
       helpers.assertFileContent(
