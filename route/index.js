@@ -19,7 +19,7 @@ var Generator = module.exports = function Generator() {
   var bower = require(path.join(process.cwd(), 'bower.json'));
   var match = require('fs').readFileSync(path.join(
     this.env.options.appPath,
-    'scripts/app.' + (coffee ? 'coffee' : typescript ? 'ts': 'js')
+    'app.' + (coffee ? 'coffee' : typescript ? 'ts': 'js')
   ), 'utf-8').match(/\.when/);
 
   if (
@@ -43,11 +43,17 @@ Generator.prototype.rewriteAppJs = function () {
     this.on('end', function () {
       this.log(chalk.yellow(
         '\nangular-route is not installed. Skipping adding the route to ' +
-        'scripts/app.' + (coffee ? 'coffee' : 'js')
+        'app.' + (coffee ? 'coffee' : 'js')
       ));
     });
     return;
   }
+
+  var name = this.name.toLowerCase().split('.');
+  this.modulePath= name.slice(0, name.length - 1).join('/');
+  this.moduleName = path.basename(name[name.length-1]);
+  console.log(name);
+  console.log(this.modulePath);
 
   this.uri = this.name;
   if (this.options.uri) {
@@ -58,21 +64,21 @@ Generator.prototype.rewriteAppJs = function () {
   var config = {
     file: path.join(
       this.env.options.appPath,
-      'scripts/app.' + (coffee ? 'coffee' : typescript ? 'ts': 'js')
+      'app.' + (coffee ? 'coffee' : typescript ? 'ts': 'js')
     ),
     needle: '.otherwise',
     splicable: [
-      "  templateUrl: 'views/" + this.name.toLowerCase() + ".html'" + (coffee ? "" : "," ),
-      "  controller: '" + this.classedName + "Ctrl'" + (coffee ? "" : ","),
+      "  templateUrl: '"  + this.modulePath + "/"+ this.moduleName.toLowerCase() + ".html'" + (coffee ? "" : "," ),
+      "  controller: '" + this.classedName + "Controller'" + (coffee ? "" : ","),
       "  controllerAs: '" + this.cameledName + "'"
     ]
   };
 
   if (coffee) {
-    config.splicable.unshift(".when '/" + this.uri + "',");
+    config.splicable.unshift(".when '/" + this.cameledName  + "',");
   }
   else {
-    config.splicable.unshift(".when('/" + this.uri + "', {");
+    config.splicable.unshift(".when('/" + this.cameledName  + "', {");
     config.splicable.push("})");
   }
 
