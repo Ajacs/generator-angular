@@ -26,6 +26,7 @@ var Generator = module.exports = function Generator() {
   var name = this.name.toLowerCase().split('.');
   this.modulePath= name.slice(0, name.length - 1).join('/');
   this.moduleName = path.basename(name[name.length-1]);
+  // moduleFullName e.g. ultra.components.directives.firstTimeExperience
   this.moduleFullName = this._.camelize((this.appname + '.' + this.name).split('-').join(' '));
   this.className = this._.classify(this.moduleName.split('-').join(' '));
   this.classNameConstant = this._.underscored(this.moduleName.split('-').join(' ')).toUpperCase();
