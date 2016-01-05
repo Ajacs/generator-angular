@@ -8,6 +8,6 @@
  * Service in the <%= scriptAppName %>.
  */
 angular.module('<%= scriptAppName %>')
-  .service('<%= classedName %>', function () {
+  .service('<%= cameledName %>Service', function () {
     // AngularJS will instantiate a singleton by calling "new" on this function
   });
