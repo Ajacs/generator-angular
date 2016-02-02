@@ -2,8 +2,8 @@
 
 > Yeoman generator for AngularJS - lets you quickly set up a project with sensible defaults and best practices.
 
-There are many starting points for building a new Angular single page app, in addition to this one. To see a comparison 
-of the popular options, have a look at 
+There are many starting points for building a new Angular single page app, in addition to this one. To see a comparison
+of the popular options, have a look at
 [this comparison](http://www.dancancro.com/comparison-of-angularjs-application-starters).
 
 [Roadmap for upcoming plans/features/fixes](https://github.com/yeoman/generator-angular/issues/553)
@@ -35,17 +35,17 @@ Run `grunt` for building and `grunt serve` for preview
 Available generators:
 
 * [angular](#app) (aka [angular:app](#app))
-* [angular:controller](#controller)
-* [angular:directive](#directive)
+* [angular-pr:controller](#controller)
+* [angular-pr:directive](#directive)
 * [angular:filter](#filter)
-* [angular:route](#route)
-* [angular:service](#service)
+* [angular-pr:route](#route)
+* [angular-pr:service](#service)
 * [angular:provider](#service)
 * [angular:factory](#service)
 * [angular:value](#service)
 * [angular:constant](#service)
 * [angular:decorator](#decorator)
-* [angular:view](#view)
+* [angular-pr:view](#view)
 
 ### App
 Sets up a new AngularJS app, generating all the boilerplate you need to get started. The app generator also optionally installs Bootstrap and additional AngularJS modules, such as angular-resource (installed by default).
@@ -60,17 +60,35 @@ Generates a controller and view, and configures a route in `app/app.js` connecti
 
 Example:
 ```bash
-yo angular:route myroute
+yo angular-pr:route path.to.my-route.RouteName
+yo angular-pr:route features.login.login
 ```
 
-Produces `app/scripts/controllers/myroute.js`:
+Produces `app/features/login/login-controller.js`:
 ```javascript
-angular.module('myMod').controller('MyrouteCtrl', function ($scope) {
-  // ...
-});
+(function() {
+  angular.module('myMod').controller('LoginController', LoginController() );
+  function LoginController() {
+    var vm = this;
+    vm.awesomeThings = [
+      'HTML5 Boilerplate',
+      'AngularJS',
+      'Karma'
+    ];
+  }
+})();
+
 ```
 
-Produces `app/views/myroute.html`:
+Produces `app/features/login/login-controller_test.js`:
+```javascript
+describe('Controller: LoginController', function () {
+
+  // load the controller's module
+  beforeEach(module('findmeApp'));
+```
+
+Produces `app/features/login/login.html`:
 ```html
 <p>This is the myroute view</p>
 ```
@@ -217,7 +235,7 @@ module demoApp {
     export interface IUserScope extends ng.IScope {
         awesomeThings: any[];
     }
-    
+
     export class UserCtrl {
 
         constructor (private $scope:IUserScope) {

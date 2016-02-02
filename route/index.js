@@ -75,10 +75,10 @@ Generator.prototype.rewriteAppJs = function () {
   };
 
   if (coffee) {
-    config.splicable.unshift(".when '/" + this.cameledName  + "',");
+    config.splicable.unshift(".state '" + this.cameledName  + "',");
   }
   else {
-    config.splicable.unshift(".when('/" + this.cameledName  + "', {");
+    config.splicable.unshift(".state('" + this.cameledName  + "', {");
     config.splicable.push("})");
   }
 
